@@ -4,7 +4,7 @@ using System.Text;
 
 namespace auth.Models
 {
-    class UserHeaders
+    public class UserHeaders
     {
 
         public long userId { get; set; }

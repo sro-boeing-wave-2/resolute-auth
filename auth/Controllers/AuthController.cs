@@ -9,7 +9,7 @@ namespace auth.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    class AuthController: Controller
+    public class AuthController: ControllerBase
     {
 
         private IAuthService _authService;
@@ -18,6 +18,7 @@ namespace auth.Controllers
         {
             this._authService = _authService;
         }
+        
 
         [Route("login")]
         [HttpPost]
@@ -35,9 +36,9 @@ namespace auth.Controllers
 
         [Route("user/add")]
         [HttpPost]
-        public IActionResult AddUserCredentials([FromBody] string email, [FromBody] string password)
+        public IActionResult AddUserCredentials([FromBody] UserCredentialsDto userCredentials)
         {
-            Boolean result = _authService.AddUserCreadentials(email, password);
+            Boolean result = _authService.AddUserCreadentials(userCredentials.Email, userCredentials.Password);
             if (result)
             {
                 return Ok();

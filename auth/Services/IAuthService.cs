@@ -3,7 +3,7 @@ using System;
 
 namespace auth.Services
 {
-    interface IAuthService
+    public interface IAuthService
     {
 
         /**

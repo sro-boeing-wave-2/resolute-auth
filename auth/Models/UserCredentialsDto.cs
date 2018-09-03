@@ -4,7 +4,7 @@ using System.Text;
 
 namespace auth.Models
 {
-    class UserCredentialsDto
+    public class UserCredentialsDto
     {
         
         public string Email { get; set; }
