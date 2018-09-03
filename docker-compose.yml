@@ -1,14 +1,14 @@
 version: "3"
 services:
     web:
-        build: .
+        build: ./auth/
         ports:
-            - "8081:8081"
+                - "8081:5000"
         depends_on:
             - mysql
         image: auth:latest
     mysql:
         image: "microsoft/mssql-server-linux"
         environment:
-            SA_PASSWORD: "auth"
+            SA_PASSWORD: "test@123"
             ACCEPT_EULA: "Y"
