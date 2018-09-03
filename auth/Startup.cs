@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace auth
 {
@@ -23,7 +24,8 @@ namespace auth
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IAuthService, AuthService>();
-            services.AddDbContext<UserCredentialContext>();
+            services.AddDbContext<UserCredentialContext>(opts => opts.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
