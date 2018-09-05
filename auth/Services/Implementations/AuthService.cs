@@ -40,7 +40,6 @@ namespace auth.Services.Implementations
         {
             UserCredentials userCredential = userCredentialContext.UserCredentials.Where(credential => credential.email.
                 Equals(email)).FirstOrDefault();
-            Console.WriteLine("User Credentials: ", userCredential);
             if (userCredential == null)
             {
                 string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).

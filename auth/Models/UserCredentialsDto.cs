@@ -7,18 +7,18 @@ namespace auth.Models
     public class UserCredentialsDto
     {
         
-        public string Email { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
 
         public UserCredentialsDto()
         {
-            Email = "";
+            Username = "";
             Password = "";
         }
 
-        public UserCredentialsDto(string Email, string Password)
+        public UserCredentialsDto(string Username, string Password)
         {
-            this.Email = Email;
+            this.Username = Username;
             this.Password = Password;
         }
 

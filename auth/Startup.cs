@@ -25,7 +25,10 @@ namespace auth
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IAuthService, AuthService>();
             services.AddDbContext<UserCredentialContext>(opts => opts.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
+            services.AddCors(
+                options => options.AddPolicy("allowaccess",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+            ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +42,7 @@ namespace auth
             {
                 app.UseHsts();
             }
+            app.UseCors("allowaccess");
             app.UseMvc();
         }
     }

@@ -6,7 +6,7 @@ using System;
 
 namespace auth.Controllers
 {
-
+    [Consumes("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController: ControllerBase
@@ -26,7 +26,7 @@ namespace auth.Controllers
         {
             try
             {
-                string token = _authService.Login(credentials.Email, credentials.Password);
+                string token = _authService.Login(credentials.Username, credentials.Password);
                 return Ok(token);
             } catch (Exception e)
             {
@@ -38,7 +38,7 @@ namespace auth.Controllers
         [HttpPost]
         public IActionResult AddUserCredentials([FromBody] UserCredentialsDto userCredentials)
         {
-            Boolean result = _authService.AddUserCreadentials(userCredentials.Email, userCredentials.Password);
+            Boolean result = _authService.AddUserCreadentials(userCredentials.Username, userCredentials.Password);
             if (result)
             {
                 return Ok();
