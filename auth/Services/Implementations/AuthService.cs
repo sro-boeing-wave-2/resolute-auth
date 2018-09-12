@@ -30,6 +30,7 @@ namespace auth.Services.Implementations
             var random = new RNGCryptoServiceProvider();
             byte[] salt = new byte[16];
             random.GetNonZeroBytes(salt);
+            Console.WriteLine("Password: " + password);
             Console.WriteLine("Salt: " + Convert.ToBase64String(salt));
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000);
             string hash = String.Concat(String.Concat(Convert.ToBase64String(salt), "$"), Convert.ToBase64String(pbkdf2.GetBytes(20)));
@@ -45,6 +46,7 @@ namespace auth.Services.Implementations
 
         public string Login(string email, string password)
         {
+            Console.WriteLine("Verify Password: " + password);
             UserCredentials userCredential = userCredentialContext.UserCredentials.Where(credential => credential.email.
                 Equals(email)).FirstOrDefault();
             if (userCredential == null)
