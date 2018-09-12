@@ -42,11 +42,7 @@ namespace auth.Services.Implementations
                 Equals(email)).FirstOrDefault();
             if (userCredential == null)
             {
-                string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
-                    WithSecret(PasswordUtils.secretKey).AddClaim("UserCredentials", JsonConvert.
-                        SerializeObject(new UserHeaders(1, 1))).Build();
-                return token;
-                //return "";
+                throw new UnauthorizedAccessException();
             }
             byte[] salt = Encoding.ASCII.GetBytes(userCredential.passwordHash.Split("$")[0]);
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000);
@@ -70,7 +66,9 @@ namespace auth.Services.Implementations
             IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
             IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
             var json = decoder.Decode(token, PasswordUtils.secretKey, verify: true);
+            Console.Write("Decoded token: " + json);
             UserHeaders decodedHeaders = JsonConvert.DeserializeObject<UserHeaders>(json);
+            Console.Write("Decoded headers: " + decodedHeaders);
             return decodedHeaders;
         }
     }

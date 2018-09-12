@@ -7,6 +7,7 @@ using System;
 namespace auth.Controllers
 {
     [Consumes("application/json")]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController: ControllerBase
@@ -30,7 +31,7 @@ namespace auth.Controllers
                 return Ok(token);
             } catch (Exception e)
             {
-                return NotFound();
+                return Unauthorized();
             }
         }
 
@@ -47,13 +48,13 @@ namespace auth.Controllers
         }
 
         [Route("token/verify")]
-        [HttpPost]
-        public IActionResult VerifyUserToken([FromBody] string token)
+        [HttpGet]
+        public IActionResult VerifyUserToken([FromQuery] string token)
         {
             UserHeaders result = _authService.VerifyUserToken(token);
             if (result != null)
             {
-                return Ok(JsonConvert.SerializeObject(result));
+                return Ok(result);
             } else
             {
                 return NotFound();

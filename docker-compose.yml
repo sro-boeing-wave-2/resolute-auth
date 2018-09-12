@@ -3,7 +3,7 @@ services:
     web:
         build: ./auth/
         ports:
-                - "8081:5000"
+            - "8081:5000"
         depends_on:
             - mysql
         image: auth:latest
