@@ -30,8 +30,10 @@ namespace auth.Services.Implementations
             var random = new RNGCryptoServiceProvider();
             byte[] salt = new byte[16];
             random.GetNonZeroBytes(salt);
+            Console.WriteLine("Salt: " + Convert.ToBase64String(salt));
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000);
-            string hash = String.Concat(String.Concat(salt.ToString(), "$"), pbkdf2.GetBytes(20).ToString());
+            string hash = String.Concat(String.Concat(Convert.ToBase64String(salt), "$"), Convert.ToBase64String(pbkdf2.GetBytes(20)));
+            Console.WriteLine("Password Hash: " + hash);
             userCredentialContext.UserCredentials.Add(new UserCredentials(email, hash));
             int result = userCredentialContext.SaveChanges();
             if (result > 0)
@@ -49,10 +51,11 @@ namespace auth.Services.Implementations
             {
                 throw new UnauthorizedAccessException();
             }
-            byte[] salt = Encoding.ASCII.GetBytes(userCredential.passwordHash.Split("$")[0]);
+            Console.WriteLine("User Credential password: " + userCredential.passwordHash);
+            byte[] salt = Convert.FromBase64String(userCredential.passwordHash.Split("$")[0]);
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000);
-            string hash = String.Concat(String.Concat(salt.ToString(), "$"), pbkdf2.GetBytes(20).ToString());
-
+            string hash = String.Concat(String.Concat(Convert.ToBase64String(salt), "$"), Convert.ToBase64String(pbkdf2.GetBytes(20)));
+            Console.WriteLine("Verification Hash: " + hash);
             if (hash != null && hash != "" && hash.Equals(userCredential.passwordHash))
             {
                 string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
