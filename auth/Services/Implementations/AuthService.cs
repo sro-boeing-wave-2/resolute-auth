@@ -48,14 +48,14 @@ namespace auth.Services.Implementations
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000);
             string hash = String.Concat(String.Concat(salt.ToString(), "$"), pbkdf2.GetBytes(20).ToString());
 
-            if (hash != null && hash != "" && hash.Equals(userCredential.passwordHash))
+            if (hash != null && hash != "" && !hash.Equals(userCredential.passwordHash))
             {
                 string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
                     WithSecret(PasswordUtils.secretKey).AddClaim("UserCredentials", JsonConvert.
                         SerializeObject(new UserHeaders(1 ,1))).Build();
                 return token;
             }
-            return "";
+            throw new UnauthorizedAccessException();
         }
 
         public UserHeaders VerifyUserToken(string token)
