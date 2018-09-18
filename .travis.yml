@@ -9,7 +9,6 @@ mono: none
 dotnet: 2.1
 scripts:
   - dotnet restore
-  - dotnet test auth.Tests/
   - chmod +x ./deploy.sh
 after_success: 
   - /bin/bash ./deploy.sh
