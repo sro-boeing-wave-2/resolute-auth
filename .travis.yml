@@ -7,6 +7,9 @@ notifications:
   slack: srboeingdotnet:pZz5KfrgntyjLpS9a1d2b1rH
 mono: none
 dotnet: 2.1
-script:
+scripts:
   - dotnet restore
   - dotnet test auth.Tests/
+  - chmod +x ./deploy.sh
+after_success: 
+  - /bin/bash ./deploy.sh
