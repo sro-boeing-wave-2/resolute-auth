@@ -12,6 +12,7 @@ using JWT;
 using auth.Utils;
 using Newtonsoft.Json;
 using auth.Models;
+using Chilkat;
 
 namespace auth.Services.Implementations
 {
@@ -19,9 +20,16 @@ namespace auth.Services.Implementations
     {
 
         private UserCredentialContext userCredentialContext;
+        private PrivateKey _privateKey;
+        private String _publicKey;
 
         public AuthService(UserCredentialContext userCredentialContext)
         {
+            SshKey key = new SshKey();
+            Rsa rsaKey = new Rsa();
+            rsaKey.GenerateKey(1024);
+            _privateKey = rsaKey.ExportPrivateKeyObj();
+            _publicKey = rsaKey.ExportPublicKey();
             this.userCredentialContext = userCredentialContext;
         }
 
@@ -62,9 +70,17 @@ namespace auth.Services.Implementations
             Console.WriteLine("Verification Hash: " + hash);
             if (hash != null && hash != "" && hash.Equals(userCredential.passwordHash))
             {
-                string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
-                    WithSecret(PasswordUtils.secretKey).AddClaim("UserCredentials", JsonConvert.
-                        SerializeObject(new UserHeaders(1 ,1))).Build();
+                //string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
+                //WithSecret(PasswordUtils.secretKey).AddClaim("UserCredentials", JsonConvert.
+                //    SerializeObject(new UserHeaders(1 ,1))).Build();
+                JsonObject jwtHeader = new JsonObject();
+                jwtHeader.AppendString("alg", "RS256");
+                jwtHeader.AppendString("typ", "JWT");
+                JsonObject claims = new JsonObject();
+                claims.AppendString("UserId", "1");
+                claims.AppendString("AgentId", "1");            
+                Jwt jwt = new Jwt();
+                string token = jwt.CreateJwtPk(jwtHeader.Emit(), claims.Emit(), _privateKey);
                 return token;
             }
             throw new UnauthorizedAccessException();
