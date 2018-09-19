@@ -15,7 +15,7 @@ using auth.Models;
 using Chilkat;
 
 namespace auth.Services.Implementations
-{
+{   
     class AuthService : IAuthService
     {
 
