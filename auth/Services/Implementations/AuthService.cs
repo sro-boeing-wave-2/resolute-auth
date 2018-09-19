@@ -13,6 +13,7 @@ using auth.Utils;
 using Newtonsoft.Json;
 using auth.Models;
 using Chilkat;
+using Consul;
 
 namespace auth.Services.Implementations
 {   
@@ -30,6 +31,14 @@ namespace auth.Services.Implementations
             rsaKey.GenerateKey(1024);
             _privateKey = rsaKey.ExportPrivateKeyObj();
             _publicKey = rsaKey.ExportPublicKey();
+            using (ConsulClient consulClient = new ConsulClient())
+            {
+                var putPair = new KVPair("publickey")
+                {
+                    Value = Encoding.UTF8.GetBytes(_publicKey)
+                };
+                var putAttempt = consulClient.KV.Put(putPair);
+            }
             this.userCredentialContext = userCredentialContext;
         }
 
