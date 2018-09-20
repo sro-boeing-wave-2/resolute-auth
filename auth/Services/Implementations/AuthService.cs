@@ -21,29 +21,9 @@ namespace auth.Services.Implementations
     {
 
         private UserCredentialContext userCredentialContext;
-        private PrivateKey _privateKey;
-        private String _publicKey;
 
         public AuthService(UserCredentialContext userCredentialContext)
         {
-            Global glob = new Global();
-            glob.UnlockBundle("Anything for 30-day trial");
-
-            SshKey key = new SshKey();
-            Rsa rsaKey = new Rsa();
-            rsaKey.GenerateKey(1024);
-            _privateKey = rsaKey.ExportPrivateKeyObj();
-            Console.WriteLine("Private Key: " + rsaKey.ExportPrivateKey());
-            _publicKey = rsaKey.ExportPublicKey();
-            Console.WriteLine("Public Key: " + _publicKey);
-            using (ConsulClient consulClient = new ConsulClient())
-            {
-                var putPair = new KVPair("publickey")
-                {
-                    Value = Encoding.UTF8.GetBytes(_publicKey)
-                };
-                var putAttempt = consulClient.KV.Put(putPair);
-            }
             this.userCredentialContext = userCredentialContext;
         }
 
@@ -69,6 +49,10 @@ namespace auth.Services.Implementations
 
         public string Login(string email, string password)
         {
+            if (!KeyUtils._isCreated)
+            {
+                KeyUtils.CreateKey();
+            }
             Console.WriteLine("Verify Email: " + email);
             Console.WriteLine("Verify Password: " + password);
             UserCredentials userCredential = userCredentialContext.UserCredentials.Where(credential => credential.email.
@@ -94,7 +78,7 @@ namespace auth.Services.Implementations
                 claims.AppendString("UserId", "1");
                 claims.AppendString("AgentId", "1");            
                 Jwt jwt = new Jwt();
-                string token = jwt.CreateJwtPk(jwtHeader.Emit(), claims.Emit(), _privateKey);
+                string token = jwt.CreateJwtPk(jwtHeader.Emit(), claims.Emit(), KeyUtils.GetPrivateKey());
                 return token;
             }
             throw new UnauthorizedAccessException();
