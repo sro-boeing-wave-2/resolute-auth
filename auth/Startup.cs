@@ -23,7 +23,7 @@ namespace auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddSingleton<IAuthService, AuthService>();
             services.AddDbContext<UserCredentialContext>(opts => opts.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
             services.AddCors(
                 options => options.AddPolicy("allowaccess",
