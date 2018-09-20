@@ -42,6 +42,7 @@ namespace auth.Utils
                 };
                 var putAttempt = consulClient.KV.Put(putPair);
             }
+            _isCreated = true;
         }
 
     }

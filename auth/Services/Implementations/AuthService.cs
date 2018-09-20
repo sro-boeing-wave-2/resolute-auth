@@ -75,8 +75,14 @@ namespace auth.Services.Implementations
                 jwtHeader.AppendString("alg", "RS256");
                 jwtHeader.AppendString("typ", "JWT");
                 JsonObject claims = new JsonObject();
-                claims.AppendString("UserId", "1");
-                claims.AppendString("AgentId", "1");            
+                claims.AppendString("organisationid", "1");
+                claims.AppendString("agentid", "1");
+                claims.AppendString("name", "Nishant Jain");
+                claims.AppendString("profileimageurl", "https://www.slrlounge.com/wp-content/uploads/2012/09/male-posing-tips-diana-elizabeth-4.jpg");
+                claims.AppendString("departmentname", "mentor");
+                claims.AppendString("organisationname", "Boeing");
+                claims.AppendString("email", email);
+
                 Jwt jwt = new Jwt();
                 string token = jwt.CreateJwtPk(jwtHeader.Emit(), claims.Emit(), KeyUtils.GetPrivateKey());
                 return token;
