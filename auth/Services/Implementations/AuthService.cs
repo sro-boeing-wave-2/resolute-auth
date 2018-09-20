@@ -26,6 +26,9 @@ namespace auth.Services.Implementations
 
         public AuthService(UserCredentialContext userCredentialContext)
         {
+            Global glob = new Global();
+            glob.UnlockBundle("Anything for 30-day trial");
+
             SshKey key = new SshKey();
             Rsa rsaKey = new Rsa();
             rsaKey.GenerateKey(1024);
