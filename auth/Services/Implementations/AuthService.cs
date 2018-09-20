@@ -31,7 +31,9 @@ namespace auth.Services.Implementations
             rsaKey.GenerateKey(1024);
             _privateKey = rsaKey.ExportPrivateKeyObj();
             _publicKey = rsaKey.ExportPublicKey();
-            using (ConsulClient consulClient = new ConsulClient())
+            ConsulClientConfiguration clientConfiguration = new ConsulClientConfiguration();
+            clientConfiguration.Address = new Uri("http://localhost:8500");
+            using (ConsulClient consulClient = new ConsulClient(clientConfiguration))
             {
                 var putPair = new KVPair("publickey")
                 {
