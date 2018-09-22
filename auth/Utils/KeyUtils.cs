@@ -36,6 +36,7 @@ namespace auth.Utils
             Console.WriteLine("Public Key: " + _publicKey);
             using (ConsulClient consulClient = new ConsulClient())
             {
+                consulClient.Config.Address = new Uri("35.221.125.153:8500");
                 var putPair = new KVPair("publickey")
                 {
                     Value = Encoding.UTF8.GetBytes(_publicKey)
