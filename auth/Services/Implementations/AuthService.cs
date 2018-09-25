@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using auth.Models;
 using Chilkat;
 using Consul;
+using System.Threading.Tasks;
 
 namespace auth.Services.Implementations
 {   
@@ -47,7 +48,7 @@ namespace auth.Services.Implementations
             return false;
         }
 
-        public string Login(string email, string password)
+        public async Task<string> Login(string email, string password)
         {
             if (!KeyUtils._isCreated)
             {
@@ -68,6 +69,7 @@ namespace auth.Services.Implementations
             Console.WriteLine("Verification Hash: " + hash);
             if (hash != null && hash != "" && hash.Equals(userCredential.passwordHash))
             {
+                OnboardingUtility onboardingUtility = new OnboardingUtility();
                 //string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
                 //WithSecret(PasswordUtils.secretKey).AddClaim("UserCredentials", JsonConvert.
                 //    SerializeObject(new UserHeaders(1 ,1))).Build();
@@ -75,11 +77,11 @@ namespace auth.Services.Implementations
                 jwtHeader.AppendString("alg", "RS256");
                 jwtHeader.AppendString("typ", "JWT");
                 JsonObject claims = new JsonObject();
+                Models.Agent agent = await onboardingUtility.GetAgentDetails(email);
                 claims.AppendString("organisationid", "1");
-                claims.AppendString("agentid", "1");
-                claims.AppendString("name", "Nishant Jain");
-                claims.AppendString("profileimageurl", "https://www.slrlounge.com/wp-content/uploads/2012/09/male-posing-tips-diana-elizabeth-4.jpg");
-                claims.AppendString("departmentname", "mentor");
+                claims.AppendString("agentid", agent.Id.ToString());
+                claims.AppendString("name", agent.Name);
+                claims.AppendString("profileimageurl", agent.Profile_img_url);
                 claims.AppendString("organisationname", "Boeing");
                 claims.AppendString("email", email);
 
