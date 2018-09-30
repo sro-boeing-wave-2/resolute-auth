@@ -1,4 +1,4 @@
-﻿using auth.Models;
+using auth.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,8 +14,9 @@ namespace auth.Utils
         public async Task<Agent> GetAgentDetails(String email)
         {
             HttpClient httpclient = new HttpClient();
-            string url = "http://35.221.125.153/agent/query?" + email;
+            string url = "http://35.221.88.74/agent/query?" + email;
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+
             var response = await httpclient.SendAsync(requestMessage);
             var result = await response.Content.ReadAsStringAsync();
             Agent responseObject = JsonConvert.DeserializeObject<Agent>(result);
