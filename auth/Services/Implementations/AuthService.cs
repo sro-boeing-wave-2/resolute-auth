@@ -76,9 +76,9 @@ namespace auth.Services.Implementations
                 JsonObject claims = new JsonObject();
                 Models.Agent agent = await onboardingUtility.GetAgentDetails(email);
                 claims.AppendString("organisationid", "1");
-                claims.AppendString("agentid", agent.Id.ToString());
-                claims.AppendString("name", agent.Name);
-                claims.AppendString("profileimageurl", agent.Profile_img_url);
+                claims.AppendString("agentid", agent.agentId.ToString());
+                claims.AppendString("name", agent.name);
+                claims.AppendString("profileimageurl", agent.profileImageUrl);
                 claims.AppendString("organisationname", "Boeing");
                 claims.AppendString("email", email);
 
