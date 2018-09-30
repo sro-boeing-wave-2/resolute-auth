@@ -1,8 +1,9 @@
-﻿using Chilkat;
+using Chilkat;
 using Consul;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace auth.Utils
 {
@@ -23,7 +24,8 @@ namespace auth.Utils
             return _publicKey;
         }
 
-        public static void CreateKey() {
+        public static void CreateKey()
+        {
             Global glob = new Global();
             glob.UnlockBundle("Anything for 30-day trial");
 
@@ -36,12 +38,13 @@ namespace auth.Utils
             Console.WriteLine("Public Key: " + _publicKey);
             using (ConsulClient consulClient = new ConsulClient())
             {
-                consulClient.Config.Address = new Uri("35.221.125.153:8500");
+                consulClient.Config.Address = new Uri("http://35.221.88.74:8500");
                 var putPair = new KVPair("publickey")
                 {
                     Value = Encoding.UTF8.GetBytes(_publicKey)
                 };
-                var putAttempt = consulClient.KV.Put(putPair);
+                var putAttempt = consulClient.KV.Put(putPair).Result;
+                Console.WriteLine("Put Result: " + JsonConvert.SerializeObject(putAttempt));
             }
             _isCreated = true;
         }

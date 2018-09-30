@@ -1,4 +1,4 @@
-﻿using auth.Context;
+using auth.Context;
 using auth.Entities;
 using System;
 using System.Linq;
@@ -70,9 +70,6 @@ namespace auth.Services.Implementations
             if (hash != null && hash != "" && hash.Equals(userCredential.passwordHash))
             {
                 OnboardingUtility onboardingUtility = new OnboardingUtility();
-                //string token = new JwtBuilder().WithAlgorithm(new HMACSHA256Algorithm()).
-                //WithSecret(PasswordUtils.secretKey).AddClaim("UserCredentials", JsonConvert.
-                //    SerializeObject(new UserHeaders(1 ,1))).Build();
                 JsonObject jwtHeader = new JsonObject();
                 jwtHeader.AppendString("alg", "RS256");
                 jwtHeader.AppendString("typ", "JWT");

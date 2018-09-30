@@ -1,5 +1,6 @@
-﻿using auth.Models;
+using auth.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace auth.Services
 {
@@ -9,7 +10,7 @@ namespace auth.Services
         /**
          * Method for user login
          */
-        string Login(string email, string password);
+        Task<string> Login(string email, string password);
 
         /**
          * Method to save user credentials

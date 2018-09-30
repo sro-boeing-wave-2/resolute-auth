@@ -1,4 +1,4 @@
-﻿using auth.Models;
+using auth.Models;
 using auth.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -27,7 +27,7 @@ namespace auth.Controllers
         {
             try
             {
-                string token = _authService.Login(credentials.Username, credentials.Password);
+                string token = _authService.Login(credentials.Username, credentials.Password).Result;
                 return Ok(token);
             } catch (Exception e)
             {
