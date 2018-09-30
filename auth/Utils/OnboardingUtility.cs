@@ -16,7 +16,7 @@ namespace auth.Utils
             HttpClient httpclient = new HttpClient();
             string url = "http://35.221.88.74/agent/query?" + email;
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
-
+            requestMessage.Headers.Add("Access", "Allow_Service");
             var response = await httpclient.SendAsync(requestMessage);
             var result = await response.Content.ReadAsStringAsync();
             Agent responseObject = JsonConvert.DeserializeObject<Agent>(result);
