@@ -30,8 +30,8 @@ namespace auth.Controllers
                 string token = _authService.Login(credentials.Username, credentials.Password).Result;
                 return Ok(token);
             } catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.GetBaseException());
+                {
+                    Console.WriteLine("Exception: " + e.GetBaseException());
                 return Unauthorized();
             }
         }

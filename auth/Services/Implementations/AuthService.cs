@@ -78,7 +78,6 @@ namespace auth.Services.Implementations
                 claims.AppendString("organisationid", "1");
                 claims.AppendString("agentid", agent.agentId.ToString());
                 claims.AppendString("name", agent.name);
-                claims.AppendString("profileimageurl", agent.profileImageUrl);
                 claims.AppendString("organisationname", "Boeing");
                 claims.AppendString("email", email);
 
