@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using DotNetEnv;
 
 namespace auth
 {
@@ -14,6 +15,7 @@ namespace auth
     {
         public static void Main(string[] args)
         {
+            Env.Load("./machine_config/.env");
             CreateWebHostBuilder(args).Build().Run();
         }
 

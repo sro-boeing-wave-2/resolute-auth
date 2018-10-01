@@ -38,7 +38,8 @@ namespace auth.Utils
             Console.WriteLine("Public Key: " + _publicKey);
             using (ConsulClient consulClient = new ConsulClient())
             {
-                consulClient.Config.Address = new Uri("http://35.221.88.74:8500");
+                String url = Constants.BASE_URL + ":" + Constants.CONSUL_PORT;
+                consulClient.Config.Address = new Uri(url);
                 var putPair = new KVPair("publickey")
                 {
                     Value = Encoding.UTF8.GetBytes(_publicKey)

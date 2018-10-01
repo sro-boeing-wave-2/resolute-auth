@@ -9,10 +9,10 @@ services:
         labels: 
             SERVICE_80_NAME: Auth
             SERVICE_TAG: AuthTag
+        volumes:
+            - "/machine_config:/app/machine_config" 
     mysql:
         image: "microsoft/mssql-server-linux"
-        ports:
-            - "1441:1433"
         environment:
             SA_PASSWORD: "test@123"
             ACCEPT_EULA: "Y"

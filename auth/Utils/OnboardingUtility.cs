@@ -14,7 +14,7 @@ namespace auth.Utils
         public async Task<Agent> GetAgentDetails(String email)
         {
             HttpClient httpclient = new HttpClient();
-            string url = "http://35.221.88.74/agents/query?email=" + email;
+            string url = Constants.BASE_URL + Constants.GET_AGENT_BY_EMAIL + email;
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             requestMessage.Headers.Add("Access", "Allow_Service");
             var response = await httpclient.SendAsync(requestMessage);
