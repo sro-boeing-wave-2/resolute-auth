@@ -39,6 +39,7 @@ namespace auth.Utils
             using (ConsulClient consulClient = new ConsulClient())
             {
                 String url = Constants.BASE_URL + ":" + Constants.CONSUL_PORT;
+                Console.WriteLine("Consul URL: " + url);
                 consulClient.Config.Address = new Uri(url);
                 var putPair = new KVPair("publickey")
                 {

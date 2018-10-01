@@ -31,6 +31,7 @@ namespace auth.Controllers
                 return Ok(token);
             } catch (Exception e)
             {
+                Console.WriteLine("Exception: " + e.GetBaseException());
                 return Unauthorized();
             }
         }
